@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     protected $table = 'students';
-    protected $fillable = ['name', 'email', 'phone', address];
+    protected $fillable = ['name', 'email', 'phone', 'address'];
 
     use HasFactory;
 }
