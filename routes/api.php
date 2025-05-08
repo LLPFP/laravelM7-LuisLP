@@ -9,12 +9,12 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\Api\CardController;
 
 
-Route::get('/students', [StudentController::class, 'index']);
-Route::post('/students', [StudentController::class, 'store']);
-Route::get('/students/{id}', [StudentController::class, 'show']);
-Route::put('/students/{id}', [StudentController::class, 'update']);
-Route::patch('/students/{id}', [StudentController::class, 'updatePartial']);
-Route::delete('/students/{id}', [StudentController::class, 'destroy']);
+// Route::get('/students', [StudentController::class, 'index']);
+// Route::post('/students', [StudentController::class, 'store']);
+// Route::get('/students/{id}', [StudentController::class, 'show']);
+// Route::put('/students/{id}', [StudentController::class, 'update']);
+// Route::patch('/students/{id}', [StudentController::class, 'updatePartial']);
+// Route::delete('/students/{id}', [StudentController::class, 'destroy']);
 
 
 
@@ -59,9 +59,5 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::put('users/{id}', [AuthController::class,'updateUser']);
     Route::delete('users/{id}', [AuthController::class,'deleteUser']);
 
-    Route::post('personajes', [AuthController::class,'addPersonaje']);
-    Route::put('personajes/{id}', [AuthController::class,'updatePersonaje']);
-    Route::delete('personajes/{id}', [AuthController::class,'deletePersonaje']);
-    Route::get('personajes', [AuthController::class,'getPersonajes']);
-    Route::get('personajes/{id}', [AuthController::class,'getPersonaje']);
+    
 });

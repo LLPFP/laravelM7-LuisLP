@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -11,7 +16,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         // Validate the request
-        $validator->validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:100',
             'role' => 'required|string|in:admin,user',
             'email' => 'required|string|email|max:255|unique:users',
