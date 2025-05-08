@@ -4,6 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\IsUserAuth;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Controllers\Api\CardController;
+
 
 Route::get('/students', [StudentController::class, 'index']);
 Route::post('/students', [StudentController::class, 'store']);
@@ -22,17 +26,23 @@ Route::get('/user', function (Request $request) {
 
 
 
-
-
-
-
-
 // Public routes
 Route::post('/register', [AuthController::class,'register']);
-
 Route::post('/login', [AuthController::class,'login']);
-Route::get('/personajes', [AuthController::class,'getPersonajes']);
-Route::get('/personajes/{id}', [AuthController::class,'getPersonaje']);
+
+
+Route::get('/cards', [CardController::class, 'index']);
+Route::get('/cards/{id}', [CardController::class, 'show']);
+Route::post('/cards', [CardController::class, 'store']);
+Route::put('/cards/{id}', [CardController::class, 'update']);
+Route::patch('/cards/{id}', [CardController::class, 'updatePartial']);
+Route::delete('/cards/{id}', [CardController::class, 'destroy']);
+
+
+
+
+
+
 
 // Protected routes
 Route::middleware([IsUserAuth::class])->group(function () {
