@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php", "composer", "redis", "nodejs", "yarn"]
+nixPkgs = ["php", "phpPackages.composer", "redis", "nodejs", "yarn"]
 
 [phases.install]
 cmds = [
@@ -9,7 +9,7 @@ cmds = [
 
 [phases.build]
 cmds = [
-  "yarn build", # o npm run build, si usas Laravel Mix o Vite
+  "yarn build", # o npm run build si usas Mix o Vite
   "php artisan migrate --force",
   "php artisan config:cache",
   "php artisan route:cache",
