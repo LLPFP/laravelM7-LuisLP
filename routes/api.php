@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\IsUserAuth;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\Api\CardController;
+use App\Http\Controllers\Api\GamesController;
 
 
 // Route::get('/students', [StudentController::class, 'index']);
@@ -30,7 +31,6 @@ Route::post('/login', [AuthController::class,'login']);
 
 
 
-
 // Protected routes
 Route::middleware([IsUserAuth::class])->group(function () {
     Route::post(('logout'), [AuthController::class,'logout']);
@@ -38,6 +38,7 @@ Route::middleware([IsUserAuth::class])->group(function () {
 
     Route::get('/cards', [CardController::class, 'index']);
     Route::get('/cards/{id}', [CardController::class, 'show']);
+    Route::get('/games', [GamesController::class, 'index']);
 
 
 
@@ -56,5 +57,6 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::put('/cards/{id}', [CardController::class, 'update']);
     Route::patch('/cards/{id}', [CardController::class, 'updatePartial']);
     Route::delete('/cards/{id}', [CardController::class, 'destroy']);
+    Route::post('/games', [GamesController::class, 'store']);
 
 });
