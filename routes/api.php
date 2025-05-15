@@ -39,7 +39,11 @@ Route::middleware([IsUserAuth::class])->group(function () {
     Route::get('/cards', [CardController::class, 'index']);
     Route::get('/cards/{id}', [CardController::class, 'show']);
     Route::get('/games', [GamesController::class, 'index']);
-
+    Route::post('/games', [GamesController::class, 'store']);
+    Route::put('/games/{id}', [GamesController::class, 'update']);
+    Route::delete('/games/{id}', [GamesController::class, 'destroy']);
+    Route::get('/games/{id}', [GamesController::class, 'show']);
+    Route::get('/ranking', [GamesController::class, 'ranking']);
 
 
 });
@@ -57,6 +61,5 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::put('/cards/{id}', [CardController::class, 'update']);
     Route::patch('/cards/{id}', [CardController::class, 'updatePartial']);
     Route::delete('/cards/{id}', [CardController::class, 'destroy']);
-    Route::post('/games', [GamesController::class, 'store']);
-
+    Route::get('/games/{id}', [GamesController::class, 'getGameByUserId']);
 });

@@ -13,17 +13,16 @@ class Game extends Model
     protected $table = 'games';
 
     protected $fillable = [
-        'nom',
-        'usuari',
-        'data',
-        'hora',
+        'user_id',
+        'duració',
         'puntuació',
         'clics',
+
     ];
 
     // RELACIÓN: este juego pertenece a un usuario
     public function user()
     {
-        return $this->belongsTo(User::class, 'usuari');
+        return $this->belongsTo(User::class);
     }
 }

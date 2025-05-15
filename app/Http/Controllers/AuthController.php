@@ -69,6 +69,23 @@ class AuthController extends Controller
         }
     }
 
+    public function getUser(Request $request)
+    {
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'User retrieved successfully',
+            'data' => $user
+        ], 200);
+    }
+
     public function getUserById($id)
     {
         // Buscar el usuario por ID

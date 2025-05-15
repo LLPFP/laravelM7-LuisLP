@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('nom');
-            $table->string('usuari');
-            $table->date('data');
-            $table->time('hora');
-            $table->integer('puntuació');
-            $table->integer('clics');
-        });
+            $table->time('duració')->nullable();
+            $table->integer('puntuació')->default(0);
+            $table->integer('clics')->default(0);
+            $table->timestamps();
+            });
     }
 
     /**
