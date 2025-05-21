@@ -10,7 +10,13 @@ class Card extends Model
     use HasFactory;
 
     protected $table = 'cards';
-    protected $fillable = ['nom', 'imatge'];
+    protected $fillable = ['nom', 'imatge', 'category_id'];
+
+    public function category()
+    {
+    return $this->belongsTo(Category::class);
+    }
+
 
 }
 

@@ -30,6 +30,8 @@ class CardController extends Controller
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
             'imatge' => 'required|string|max:255', // podrías validar como URL si es necesario
+            'category_id' => 'required|integer|min:0'
+
         ]);
 
         if ($validator->fails()) {
@@ -50,6 +52,8 @@ class CardController extends Controller
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
             'imatge' => 'required|string|max:255',
+            'category_id' => 'required|integer|min:0'
+
         ]);
 
         if ($validator->fails()) {
@@ -70,6 +74,8 @@ class CardController extends Controller
         $validator = Validator::make($request->all(), [
             'nom' => 'sometimes|string|max:255',
             'imatge' => 'sometimes|string|max:255',
+            'category_id' => 'required|integer|min:0'
+
         ]);
 
         if ($validator->fails()) {
