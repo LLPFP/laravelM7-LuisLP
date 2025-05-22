@@ -27,36 +27,36 @@ Estas rutas son públicas y no requieren autenticación ni rol. Sirven para regi
 
 Teniendo en cuenta los campos de usuario, la peticion en JSOn sería la siguiente:
 
-EJ:
-    {
-        "name": "Luis",
-        "email": "luis@gmail.com",
-        "password": "12345678"
-        "password_confirmation": "12345678"
-        "rol": "admin"
-    }
+    EJ:
+        {
+            "name": "Luis",
+            "email": "luis@gmail.com",
+            "password": "12345678"
+            "password_confirmation": "12345678"
+            "rol": "admin"
+        }
 
 De esta manera, se registrará el usuario en la base de datos y se le asignará el rol de "admin".
 
 Para hacer login, solo se necesita el email y la contraseña. Este, te devolverá un token de inicio de sesión
  
- EJ:
-    {
-        "email": "luis@gmail.com",
-        "password": "12345678"
-    }
+    EJ:
+        {
+            "email": "luis@gmail.com",
+            "password": "12345678"
+        }
 
 ### Protected Routes:
 
-// Protected routes
-Route::middleware([IsAuthenticated::class])->group(function () {
-    Route::post('/logout', [AuthController::class,'logout']);
-    Route::get('/pets', [PetsController::class, 'getMyPets']);
-    Route::post('/pets', [PetsController::class, 'createPet']);
-    Route::put('/pets/{id}', [PetsController::class, 'completeUpdatePet']);
-    Route::patch('/pets/{id}', [PetsController::class, 'partialUpdatePet']);
-    Route::delete('/pets/{id}', [PetsController::class, 'deletePet']);
-});
+    // Protected routes
+    Route::middleware([IsAuthenticated::class])->group(function () {
+        Route::post('/logout', [AuthController::class,'logout']);
+        Route::get('/pets', [PetsController::class, 'getMyPets']);
+        Route::post('/pets', [PetsController::class, 'createPet']);
+        Route::put('/pets/{id}', [PetsController::class, 'completeUpdatePet']);
+        Route::patch('/pets/{id}', [PetsController::class, 'partialUpdatePet']);
+        Route::delete('/pets/{id}', [PetsController::class, 'deletePet']);
+    });
 
 Estas rutas estan protegidas por el middleware IsAuthenticated, que comprueba que el usuario está autenticado. No es necesario ningun rol para acceder a estas rutas.
 
