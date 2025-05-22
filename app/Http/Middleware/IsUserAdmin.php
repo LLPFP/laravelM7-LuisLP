@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class IsUserAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth('api')->user();
-        if($user && $user->role === 'admin'){
+        if($user && $user->rol === 'admin'){
             return $next($request);
         }else{
             return response()->json(['message' => 'Unauthorized token'], 403);
