@@ -62,9 +62,9 @@ Estas rutas estan protegidas por el middleware IsAuthenticated, que comprueba qu
 
 - Para logout, se necesita el token de autenticación, así que no se podría hacer sin uno.
 
--   Para ver las mascotas, se necesita el token de autenticación, así que no se podría hacer sin estar logueado. Solo se mostrará las mascotas del usuario, no las del resto de usuarios.
+- Para ver las mascotas, se necesita el token de autenticación, así que no se podría hacer sin estar logueado. Solo se mostrará las mascotas del usuario, no las del resto de usuarios.
 
--     Para crear una mascota, se necesita el token de autenticación, así que no se podría hacer sin estar logueado.
+- Para crear una mascota, se necesita el token de autenticación, así que no se podría hacer sin estar logueado.
    
    EJ: 
     
@@ -98,11 +98,11 @@ Route::middleware([IsUserAdmin::class])->group(function () {
 
 Estas rutas estan protegidas por el middleware IsUserAdmin, que comprueba que el usuario es "admin".
 
--   Para ver todos los usuarios, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado.
+- Para ver todos los usuarios, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado.
 
--   Para ver un usuario en concreto, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado.
+- Para ver un usuario en concreto, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado.
 
--   Para actualizar un usuario, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado. 
+- Para actualizar un usuario, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado. 
 
 uerda que los campos son: nombre, email, password y rol, así que un "put" al user en concreto, podría ser de la siguiente manera:
 
@@ -114,14 +114,19 @@ uerda que los campos son: nombre, email, password y rol, así que un "put" al us
         "rol": "admin"
     }
 
--     Para eliminar un usuario, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado.
+- Para eliminar un usuario, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado.
 
--     Para ver las mascotas de un usuario, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado. 
+- Para ver las mascotas de un usuario, se necesita el token de autenticación y ser admin, así que no se podría hacer sin estar logueado. 
 
 
-Ten en cuenta que la URL de la api es: examenapiluislp.up.railway.app, así que una petición, por ejemplo para logarse, sería:
+* Ten en cuenta que la URL de la api es: examenapiluislp.up.railway.app, así que una petición, por ejemplo para logarse, sería:
 
-examenapiluislp.up.railway.app/api/login -> POST
+    examenapiluislp.up.railway.app/api/login -> POST
 
 
 E introduces los datos del usuario para hacer el log in y que te de el token.
+
+
+### JWT (JSON Web Token)
+
+JWT es un estándar abierto (RFC 7519) que define una forma compacta y autónoma de transmitir información de forma segura entre partes como un objeto JSON. Esta información puede ser verificada y confiable porque está firmada digitalmente.
