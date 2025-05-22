@@ -19,9 +19,9 @@ Las rutas son las siguientes:
 
 ### Public Routes:
 
-// Public routes
-Route::post('/register', [AuthController::class,'register']);
-Route::post('/login', [AuthController::class,'login']);
+    // Public routes
+    Route::post('/register', [AuthController::class,'register']);
+    Route::post('/login', [AuthController::class,'login']);
 
 Estas rutas son públicas y no requieren autenticación ni rol. Sirven para registrar el usuario en la base de datos e iniciar sesión.
 
@@ -129,4 +129,4 @@ E introduces los datos del usuario para hacer el log in y que te de el token.
 
 ### JWT (JSON Web Token)
 
-JWT es un estándar abierto (RFC 7519) que define una forma compacta y autónoma de transmitir información de forma segura entre partes como un objeto JSON. Esta información puede ser verificada y confiable porque está firmada digitalmente.
+JWT define una forma compacta de transmitir información de forma segura entre partes como un objeto JSON. 
