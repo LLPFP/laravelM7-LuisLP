@@ -4,21 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
-class Mascotas extends Model
+class Pet extends Model
 {
     use HasFactory;
 
     protected $table = 'mascotas';
     protected $fillable = [
+        'user_id',
         'nombre',
         'raza',
         'edad',
-        'peso',
-        'color',
-        'foto',
-        'user_id',
-    ]
+    ];
 
 
      public function user()

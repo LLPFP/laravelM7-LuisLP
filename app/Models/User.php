@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
@@ -23,6 +24,12 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'rol',
     ];
+
+     public function pets()
+    {
+        return $this->hasMany(Pet::class);
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

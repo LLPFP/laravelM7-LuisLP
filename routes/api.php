@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\IsAuthenticated;
 use App\Http\Middleware\IsUserAdmin;
+use App\Http\Controllers\Api\PetsController;
 
 
 // Route::get('/students', [StudentController::class, 'index']);
@@ -34,7 +35,11 @@ Route::post('/login', [AuthController::class,'login']);
 // Protected routes
 Route::middleware([IsAuthenticated::class])->group(function () {
     Route::post('/logout', [AuthController::class,'logout']);
-
+    Route::get('/pets', [PetsController::class, 'getMyPets']);
+    Route::post('/pets', [PetsController::class, 'createPet']);
+    Route::put('/pets/{id}', [PetsController::class, 'completeUpdatePet']);
+    Route::patch('/pets/{id}', [PetsController::class, 'partialUpdatePet']);
+    Route::delete('/pets/{id}', [PetsController::class, 'deletePet']);
 });
 
 
