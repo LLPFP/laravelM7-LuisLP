@@ -159,6 +159,23 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function getPetsByUserId($id)
+    {
+        $usuari = User::find($id);
+
+        if (!$usuari) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        $pets = $usuari->pets;
+
+        return response()->json([
+            'message' => 'Pets retrieved successfully',
+            'data' => $pets
+        ], 200);
+    }
 
 
 }

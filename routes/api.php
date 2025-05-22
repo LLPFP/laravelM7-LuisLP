@@ -51,5 +51,5 @@ Route::middleware([IsUserAdmin::class])->group(function () {
     Route::get('/users/{id}', [AuthController::class, 'getUserById']);
     Route::put('/users/{id}', [AuthController::class, 'updateUser']);
     Route::delete('/users/{id}', [AuthController::class, 'deleteUser']);
-
+    Route::get('/users/{id}/pets', [AuthController::class, 'getPetsByUserId']);
 });
