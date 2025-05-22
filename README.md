@@ -49,7 +49,7 @@ Para hacer login, solo se necesita el email y la contraseÃ±a. Este, te devolverÃ
 ### Protected Routes:
 
     // Protected routes
-    Route::middleware([IsAuthenticated::class])->group(function () {
+        Route::middleware([IsAuthenticated::class])->group(function () {
         Route::post('/logout', [AuthController::class,'logout']);
         Route::get('/pets', [PetsController::class, 'getMyPets']);
         Route::post('/pets', [PetsController::class, 'createPet']);
