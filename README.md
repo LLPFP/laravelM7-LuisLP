@@ -66,13 +66,13 @@ Estas rutas estan protegidas por el middleware IsAuthenticated, que comprueba qu
 
 - Para crear una mascota, se necesita el token de autenticación, así que no se podría hacer sin estar logueado.
    
-   EJ: 
-    
-    {
-    "nombre": "Luna",
-    "raza": "Perro",
-    "edad": 4
-    }
+    EJ: 
+        
+        {
+        "nombre": "Luna",
+        "raza": "Perro",
+        "edad": 4
+        }
 
     Esto creará automaticamente, para el usuario logueado, una mascota con los datos que se han pasado. Dicha mascota estará asociada al user_id del usuario logueado.
 
