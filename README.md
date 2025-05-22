@@ -86,8 +86,7 @@ Estas rutas estan protegidas por el middleware IsAuthenticated, que comprueba qu
 
 // Admin routes
 
-Route::middleware([IsUserAdmin::class])->group(function () {
-
+    Route::middleware([IsUserAdmin::class])->group(function () {
     Route::get('/users', [AuthController::class, 'getAllUsers']);
     Route::get('/users/{id}', [AuthController::class, 'getUserById']);
     Route::put('/users/{id}', [AuthController::class, 'updateUser']);
