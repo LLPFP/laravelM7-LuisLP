@@ -68,21 +68,15 @@ class AuthController extends Controller
         }
     }
 
-    public function getUser(Request $request)
+    public function logout()
     {
-        // Obtener el user autenticado
-        $usuari = Auth::User();
+        try{
+            JWTAuth::invalidate(JWTAuth::getToken());
 
-        if (!$usuari) {
-            return response()->json([
-                'message' => 'User not found'
-            ], 404);
+            return response()->json(['message' => 'User logged out successfully'], 200);
+        }catch (JWTException $e){
+            return response()->json(['message' => 'Could not log out', 500]);
         }
-
-        return response()->json([
-            'message' => 'User retrieved successfully',
-            'data' => $usuari
-        ], 200);
     }
 
     public function getUserById($id)
@@ -114,14 +108,40 @@ class AuthController extends Controller
     }
 
 
-    public function logout()
+    public function updateUser(Request $request, $id)
     {
-        try{
-            JWTAuth::invalidate(JWTAuth::getToken());
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'string|max:100',
+            'rol' => 'string|in:admin,usuari',
+            'email' => 'string|email|max:255|unique:users,email,' . $id,
+            'password' => 'string|min:5|confirmed',
+        ]);
 
-            return response()->json(['message' => 'User logged out successfully'], 200);
-        }catch (JWTException $e){
-            return response()->json(['message' => 'Could not log out', 500]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
+
+        // Find the User
+        $usuari = User::find($id);
+
+        if (!$usuari) {
+            return response()->json([
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        // Update the User
+        $usuari->update($request->all());
+
+        return response()->json([
+            'message' => 'User updated successfully',
+            'data' => $usuari
+        ], 200);
     }
+
+
+
+
+
 }
