@@ -133,8 +133,13 @@ class CardController extends Controller
         return response()->json(['card' => $card], 200);
     }
 
-    public function destroy(Card $card)
+    public function destroy($id)
     {
+        $card = Card::find($id);
+        if (!$card) {
+            return response()->json(['error' => 'Card not found'], 404);
+        }
+
         $user = Auth::user();
         if ($card->user_id !== $user->id && $user->role !== 'admin') {
             return response()->json(['error' => 'No autoritzat'], 403);

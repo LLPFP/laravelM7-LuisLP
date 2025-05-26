@@ -29,6 +29,9 @@ class GamesController extends Controller
         if (!$game) {
             return response()->json(['error' => 'Game not found'], 404);
         }
+        if ($game->user_id !== Auth::id()) {
+            return response()->json(['error' => 'No tienes permiso para ver esta partida'], 403);
+        }
         return response()->json(['game' => $game], 200);
     }
 

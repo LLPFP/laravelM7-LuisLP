@@ -40,13 +40,13 @@ Route::middleware([IsUserAuth::class])->group(function () {
     // Verificado-> Funcionando
     Route::get('/my-cards', [CardController::class, 'myCards']);
     Route::get('/public-cards', [CardController::class, 'publicCards']);
-
-
     Route::post('/cards', [CardController::class, 'store']);
     Route::delete('/cards/{id}', [CardController::class, 'destroy']);
 
 
 
+
+    // Verificado-> Funcionando
     Route::get('/games', [GamesController::class, 'index']);
     Route::post('/games', [GamesController::class, 'store']);
     Route::put('/games/{id}', [GamesController::class, 'update']);
@@ -55,9 +55,13 @@ Route::middleware([IsUserAuth::class])->group(function () {
     Route::get('/ranking', [GamesController::class, 'ranking']);
     Route::get('/games/user/{id}', [GamesController::class, 'getGamesByUserId']);
 
+
+    // Verificado-> Funcionando
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
+
+
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 
 
@@ -67,13 +71,14 @@ Route::middleware([IsUserAuth::class])->group(function () {
 // Admin routes
 
 Route::middleware([IsAdmin::class])->group(function () {
+    // Verificado-> Funcionando
    Route::get('users', [AuthController::class,'getAllUsers']);
     Route::get('users/{id}', [AuthController::class,'getUserById']);
     Route::put('users/{id}', [AuthController::class,'updateUser']);
     Route::patch('users/{id}', [AuthController::class,'updateUserPartial']);
     Route::delete('users/{id}', [AuthController::class,'deleteUser']);
 
-
+    // Verificado-> Funcionando
     Route::get('/cards', [CardController::class, 'index']);
     Route::get('/cards/{id}', [CardController::class, 'show']);
     Route::put('/cards/{id}', [CardController::class, 'update']);
