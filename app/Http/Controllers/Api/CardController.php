@@ -31,7 +31,7 @@ class CardController extends Controller
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:100',
             'imatge' => 'required|url',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'sometimes|exists:categories,id',
         ]);
 
         if ($validator->fails()) {
