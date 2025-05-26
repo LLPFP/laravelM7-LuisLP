@@ -36,11 +36,8 @@ Route::middleware([IsUserAuth::class])->group(function () {
     Route::post(('logout'), [AuthController::class,'logout']);
     Route::get('me', [AuthController::class,'getUser']);
 
-    Route::get('/cards', [CardController::class, 'index']);
-    Route::get('/cards/{id}', [CardController::class, 'show']);
     Route::get('/my-cards', [CardController::class, 'myCards']);
     Route::post('/cards', [CardController::class, 'store']);
-
     Route::get('/public-cards', [CardController::class, 'publicCards']);
     Route::delete('/cards/{id}', [CardController::class, 'destroy']);
 
@@ -69,9 +66,12 @@ Route::middleware([IsAdmin::class])->group(function () {
    Route::get('users', [AuthController::class,'getAllUsers']);
     Route::get('users/{id}', [AuthController::class,'getUserById']);
     Route::put('users/{id}', [AuthController::class,'updateUser']);
-    Route::delete('users/{id}', [AuthController::class,'deleteUser']);
     Route::patch('users/{id}', [AuthController::class,'updateUserPartial']);
+    Route::delete('users/{id}', [AuthController::class,'deleteUser']);
 
+
+    Route::get('/cards', [CardController::class, 'index']);
+    Route::get('/cards/{id}', [CardController::class, 'show']);
     Route::put('/cards/{id}', [CardController::class, 'update']);
     Route::patch('/cards/{id}', [CardController::class, 'updatePartial']);
 });

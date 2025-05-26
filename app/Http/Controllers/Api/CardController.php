@@ -26,25 +26,32 @@ class CardController extends Controller
         return response()->json(['card' => $card], 200);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nom' => 'required|string|max:100',
+            'imatge' => 'required|url',
+            'category_id' => 'nullable|exists:categories,id',
+        ]);
 
-    $request->validate([
-        'nom' => 'required|string|max:100',
-        'imatge' => 'required|url',
-        'category_id' => 'nullable|exists:categories,id',
-    ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Error de validació',
+                'errors' => $validator->errors()
+            ], 422);
+        }
 
-    $card = Card::create([
-        'nom' => $request->nombre,
-        'imatge' => $request->url_imagen,
-        'category_id' => $request->category_id,
-        'user_id' => Auth::id(), // 🔑 afegim l'usuari que l'ha creat
-    ]);
+        $card = Card::create([
+            'nom' => $request->nom,
+            'imatge' => $request->imatge,
+            'category_id' => $request->category_id,
+            'user_id' => Auth::id(),
+        ]);
 
-    return response()->json([
-        'message' => 'Targeta creada',
-        'data' => $card
-    ], 201);
+        return response()->json([
+            'message' => 'Targeta creada',
+            'data' => $card
+        ], 201);
     }
 
     public function myCards()
