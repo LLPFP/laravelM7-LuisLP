@@ -70,6 +70,7 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::get('users/{id}', [AuthController::class,'getUserById']);
     Route::put('users/{id}', [AuthController::class,'updateUser']);
     Route::delete('users/{id}', [AuthController::class,'deleteUser']);
+    Route::patch('users/{id}', [AuthController::class,'updateUserPartial']);
 
     Route::put('/cards/{id}', [CardController::class, 'update']);
     Route::patch('/cards/{id}', [CardController::class, 'updatePartial']);

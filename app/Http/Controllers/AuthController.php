@@ -135,11 +135,10 @@ class AuthController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'sometimes|required|string|max:100',
-            'role' => 'sometimes|required|string|in:admin,user',
-            'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'sometimes|required|string|min:5|confirmed',
-        ]);
+            'name' => 'required|string|max:100',
+            'role' => 'required|string|in:admin,user',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'sometimes|string|min:5|confirmed',]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -162,6 +161,46 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'User updated successfully',
+            'data' => $user
+        ], 200);
+    }
+
+    public function updateUserPartial(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|string|max:100',
+            'role' => 'sometimes|string|in:admin,user',
+            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'sometimes|string|min:5|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if ($request->has('name')) {
+            $user->name = $request->get('name');
+        }
+        if ($request->has('role')) {
+            $user->role = $request->get('role');
+        }
+        if ($request->has('email')) {
+            $user->email = $request->get('email');
+        }
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->get('password'));
+        }
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'User partially updated successfully',
             'data' => $user
         ], 200);
     }
