@@ -27,7 +27,7 @@ class CardController extends Controller
     }
 
 
-    
+
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -41,6 +41,11 @@ class CardController extends Controller
             'nom' => 'required|string|max:100',
             'imatge' => 'required|url',
             'category_id' => 'required|exists:categories,id',
+            'user_id' => [
+                'nullable',
+                'exists:users,id',
+                Rule::in([$user->id]) // Permet només l'usuari autenticat
+            ]
         ]);
 
         if ($validator->fails()) {
