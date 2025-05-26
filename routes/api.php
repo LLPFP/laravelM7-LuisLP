@@ -24,7 +24,7 @@ use App\Http\Controllers\CategoryController;
 
 
 
-// Public routes
+// Public routes Verificado-> Funcionando
 Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 
@@ -33,12 +33,16 @@ Route::post('/login', [AuthController::class,'login']);
 
 // Protected routes
 Route::middleware([IsUserAuth::class])->group(function () {
+    // Verificado-> Funcionando
     Route::post(('logout'), [AuthController::class,'logout']);
     Route::get('me', [AuthController::class,'getUser']);
 
+    // Verificado-> Funcionando
     Route::get('/my-cards', [CardController::class, 'myCards']);
-    Route::post('/cards', [CardController::class, 'store']);
     Route::get('/public-cards', [CardController::class, 'publicCards']);
+
+
+    Route::post('/cards', [CardController::class, 'store']);
     Route::delete('/cards/{id}', [CardController::class, 'destroy']);
 
 

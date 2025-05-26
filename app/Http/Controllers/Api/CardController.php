@@ -26,8 +26,17 @@ class CardController extends Controller
         return response()->json(['card' => $card], 200);
     }
 
+
+    
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuari no autenticat'
+            ], 401);
+        }
+
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:100',
             'imatge' => 'required|url',
@@ -45,7 +54,7 @@ class CardController extends Controller
             'nom' => $request->nom,
             'imatge' => $request->imatge,
             'category_id' => $request->category_id,
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
         ]);
 
         return response()->json([
