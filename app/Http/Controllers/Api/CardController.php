@@ -7,6 +7,7 @@ use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 
 class CardController extends Controller
@@ -25,22 +26,47 @@ class CardController extends Controller
         return response()->json(['card' => $card], 200);
     }
 
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nom' => 'required|string|max:255',
-            'imatge' => 'required|string|max:255', // podrías validar como URL si es necesario
-            'category_id' => 'required|integer|min:0'
+    public function store(Request $request){
 
-        ]);
+    $request->validate([
+        'nom' => 'required|string|max:100',
+        'imatge' => 'required|url',
+        'category_id' => 'nullable|exists:categories,id',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
+    $card = Card::create([
+        'nom' => $request->nombre,
+        'imatge' => $request->url_imagen,
+        'category_id' => $request->category_id,
+        'user_id' => Auth::id(), // 🔑 afegim l'usuari que l'ha creat
+    ]);
 
-        $card = Card::create($request->all());
-        return response()->json(['card' => $card], 201);
+    return response()->json([
+        'message' => 'Targeta creada',
+        'data' => $card
+    ], 201);
     }
+
+    public function myCards()
+    {
+        $cards = Card::where('user_id', Auth::id())->get();
+
+        return response()->json([
+            'message' => 'Les teves targetes',
+            'data' => $cards
+        ]);
+    }
+
+    public function publicCards()
+    {
+        $cards = Card::whereNull('user_id')->get();
+
+        return response()->json([
+            'message' => 'Targetes públiques',
+            'data' => $cards
+        ]);
+    }
+
 
     public function update(Request $request, $id)
     {
@@ -86,16 +112,17 @@ class CardController extends Controller
         return response()->json(['card' => $card], 200);
     }
 
-    public function destroy($id)
+    public function destroy(Card $card)
     {
-        $card = Card::find($id);
-        if (!$card) {
-            return response()->json(['error' => 'Card not found'], 404);
+        $user = Auth::user();
+        if ($card->user_id !== $user->id && $user->role !== 'admin') {
+            return response()->json(['error' => 'No autoritzat'], 403);
         }
 
         $card->delete();
-        return response()->json(['message' => 'Card deleted successfully'], 200);
+        return response()->json(['message' => 'Targeta eliminada']);
     }
+
 
 
 }

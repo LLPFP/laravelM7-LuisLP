@@ -38,9 +38,14 @@ Route::middleware([IsUserAuth::class])->group(function () {
 
     Route::get('/cards', [CardController::class, 'index']);
     Route::get('/cards/{id}', [CardController::class, 'show']);
+    Route::get('/my-cards', [CardController::class, 'myCards']);
+    Route::post('/cards', [CardController::class, 'store']);
+
+    Route::get('/public-cards', [CardController::class, 'publicCards']);
+    Route::delete('/cards/{id}', [CardController::class, 'destroy']);
 
 
-    
+
     Route::get('/games', [GamesController::class, 'index']);
     Route::post('/games', [GamesController::class, 'store']);
     Route::put('/games/{id}', [GamesController::class, 'update']);
@@ -66,8 +71,6 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::put('users/{id}', [AuthController::class,'updateUser']);
     Route::delete('users/{id}', [AuthController::class,'deleteUser']);
 
-    Route::post('/cards', [CardController::class, 'store']);
     Route::put('/cards/{id}', [CardController::class, 'update']);
     Route::patch('/cards/{id}', [CardController::class, 'updatePartial']);
-    Route::delete('/cards/{id}', [CardController::class, 'destroy']);
 });

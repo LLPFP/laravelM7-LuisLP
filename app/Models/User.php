@@ -24,6 +24,11 @@ class User extends Authenticatable implements JWTSubject
         'role',
     ];
 
+    public function cards()
+    {
+        return $this->hasMany(Card::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
