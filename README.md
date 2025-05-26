@@ -1,62 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 📘 Documentación de la API REST
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Esta API permite gestionar usuarios, tarjetas (cards), juegos (games) y categorías. Utiliza autenticación JWT y control de acceso basado en roles (`admin`, `user`).
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🔐 Autenticación y Roles
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Usuario autenticado:** Debe incluir el token JWT en el header:
+    ```
+    Authorization: Bearer {token}
+    ```
+- **Admin:** Usuario con rol `"admin"` que tiene acceso completo, incluyendo rutas exclusivas.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🌐 Endpoints Públicos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📝 Registro de Usuario
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+`POST /api/register`
 
-## Laravel Sponsors
+```json
+{
+    "name": "Juan",
+    "role": "user",
+    "email": "juan@email.com",
+    "password": "12345",
+    "password_confirmation": "12345"
+}
+```
+**Respuesta:** `201 Created`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+---
 
-### Premium Partners
+### 🔑 Login
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+`POST /api/login`
 
-## Contributing
+```json
+{
+    "email": "juan@email.com",
+    "password": "12345"
+}
+```
+**Respuesta:** `200 OK`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```json
+{
+    "message": "Login successful",
+    "token": "JWT_TOKEN"
+}
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🔒 Endpoints Protegidos (requieren JWT)
 
-## Security Vulnerabilities
+### 👤 Usuario
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- `POST /api/logout` – Cierra sesión.
+- `GET /api/me` – Retorna los datos del usuario autenticado.
 
-## License
+### 💳 Tarjetas (Cards)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- `GET /api/my-cards` – Lista las tarjetas del usuario autenticado.
+- `GET /api/public-cards` – Lista tarjetas públicas (sin usuario).
+- `POST /api/cards` – Crea una nueva tarjeta.
+
+```json
+{
+    "nom": "Tarjeta 1",
+    "imatge": "https://url-imagen.com/img.png",
+    "category_id": 1
+}
+```
+
+- `DELETE /api/cards/{id}` – Elimina una tarjeta (propia o si el usuario es admin).
+
+### 🎮 Juegos (Games)
+
+- `GET /api/games` – Lista partidas del usuario.
+- `POST /api/games` – Crea una nueva partida.
+- `GET /api/games/{id}` – Muestra una partida propia.
+- `PUT /api/games/{id}` – Actualiza una partida.
+
+```json
+{
+    "duració": 120,
+    "puntuació": 100,
+    "clics": 30
+}
+```
+
+- `DELETE /api/games/{id}` – Elimina una partida.
+- `GET /api/ranking` – Devuelve el top 5 del ranking.
+- `GET /api/games/user/{id}` – (Admin) Lista partidas de un usuario específico.
+
+### 🗂️ Categorías
+
+- `GET /api/categories` – Lista todas las categorías.
+- `POST /api/categories` – Crea una nueva categoría.
+- `PUT /api/categories/{category}` – Actualiza una categoría.
+- `DELETE /api/categories/{category}` – Elimina una categoría.
+
+---
+
+## 🛠️ Endpoints de Administración (solo Admin)
+
+> Requieren token JWT con rol admin
+
+### 👥 Usuarios
+
+- `GET /api/users` – Lista todos los usuarios.
+- `GET /api/users/{id}` – Muestra un usuario.
+- `PUT /api/users/{id}` – Actualiza un usuario.
+- `PATCH /api/users/{id}` – Actualización parcial.
+- `DELETE /api/users/{id}` – Elimina un usuario.
+
+### 💳 Tarjetas
+
+- `GET /api/cards` – Lista todas las tarjetas.
+- `GET /api/cards/{id}` – Muestra una tarjeta.
+- `PUT /api/cards/{id}` – Actualiza una tarjeta.
+- `PATCH /api/cards/{id}` – Actualización parcial.
+
+---
+
+## 🧪 Ejemplos con `curl`
+
+### Registro
+
+```bash
+curl -X POST http://localhost:8000/api/register \
+-H "Content-Type: application/json" \
+-d '{"name":"Juan","role":"user","email":"juan@email.com","password":"12345","password_confirmation":"12345"}'
+```
+
+### Login
+
+```bash
+curl -X POST http://localhost:8000/api/login \
+-H "Content-Type: application/json" \
+-d '{"email":"juan@email.com","password":"12345"}'
+```
+
+### Obtener mis tarjetas (requiere token JWT)
+
+```bash
+curl -H "Authorization: Bearer JWT_TOKEN" \
+http://localhost:8000/api/my-cards
+```
+
+---
+
+## 📎 Notas
+
+- Todas las respuestas están en formato JSON.
+- Los endpoints protegidos requieren autenticación con JWT.
+- Los endpoints de administración requieren que el usuario tenga rol admin.
+- Los errores de validación retornan código `422` con detalles en el cuerpo de la respuesta.
+
+---
+
+## 🛡️ Roles y Permisos
+
+| Endpoint                      | Invitado | Usuario | Admin |
+|-------------------------------|:--------:|:-------:|:-----:|
+| `/register`, `/login`         |   ✅     |   ✅    |  ✅   |
+| `/logout`, `/me`              |   ❌     |   ✅    |  ✅   |
+| `/my-cards`, `/public-cards`  |   ❌     |   ✅    |  ✅   |
+| `/cards` (POST, DELETE)       |   ❌     |   ✅    |  ✅   |
+| `/games` (GET, POST, etc)     |   ❌     |   ✅    |  ✅   |
+| `/categories`                 |   ❌     |   ✅    |  ✅   |
+| `/users*`                     |   ❌     |   ❌    |  ✅   |
+| `/cards*` (GET, PUT, PATCH)   |   ❌     |   ❌    |  ✅   |
+
