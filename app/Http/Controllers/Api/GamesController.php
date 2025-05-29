@@ -98,17 +98,34 @@ class GamesController extends Controller
 
     public function ranking()
     {
-        $ranking = Game::select('user_id')
-            ->selectRaw('MIN(duració) as best_time')
-            ->selectRaw('MIN(clics) as min_clicks')
-            ->selectRaw('MAX(puntuació) as max_points')
-            ->with('user:id,name')
+        $users = Game::select('user_id')
             ->groupBy('user_id')
-            ->orderBy('best_time')
-            ->orderBy('min_clicks')
-            ->orderByDesc('max_points')
-            ->take(5)
             ->get();
+
+        $ranking = [];
+
+        foreach ($users as $user) {
+            $bestGame = Game::where('user_id', $user->user_id)
+                ->orderBy('duració')
+                ->orderBy('clics')
+                ->orderByDesc('puntuació')
+                ->first();
+
+            if ($bestGame) {
+                $bestGame->load('user:id,name');
+                $ranking[] = $bestGame;
+            }
+        }
+
+        // Ordena el ranking final
+        $ranking = collect($ranking)
+            ->sortBy([
+                ['duració', 'asc'],
+                ['clics', 'asc'],
+                ['puntuació', 'desc'],
+            ])
+            ->take(5)
+            ->values();
 
         return response()->json([
             'message' => 'Top 5 jugadors',
