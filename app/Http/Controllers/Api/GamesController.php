@@ -154,7 +154,7 @@ class GamesController extends Controller
         $games = Game::with('user:id,name')->get();
 
         return response()->json([
-            'message' => 'Totes les partides',
+            'message' => 'Totes les partides de tots els usuaris',
             'data' => $games
         ], 200);
     }
