@@ -79,7 +79,7 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::delete('users/{id}', [AuthController::class,'deleteUser']);
 
 
-    Route::get('/games/full', [GamesController::class, 'showAllGames']);
+    Route::get('/full/games', [GamesController::class, 'showAllGames']);
 
 
     // Verificado-> Funcionando
