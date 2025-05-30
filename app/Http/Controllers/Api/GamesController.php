@@ -149,5 +149,15 @@ class GamesController extends Controller
         ]);
     }
 
+    public function showAllGames()
+    {
+        $games = Game::with('user:id,name')->get();
+
+        return response()->json([
+            'message' => 'Totes les partides',
+            'data' => $games
+        ], 200);
+    }
+
 
 }
