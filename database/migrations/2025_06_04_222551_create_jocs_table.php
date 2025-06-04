@@ -9,11 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
 {
-    Schema::create('categories', function (Blueprint $table) {
+    Schema::create('jocs', function (Blueprint $table) {
         $table->id();
-        $table->string('name');
+        $table->string('nom');
+        $table->text('descripcio')->nullable();
+        $table->string('genere');
+        $table->integer('any_llancament');
+        $table->string('desenvolupador');
         $table->timestamps();
     });
 }
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('jocs');
     }
 };
